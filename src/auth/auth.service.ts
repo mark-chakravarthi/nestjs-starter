@@ -10,11 +10,10 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  validateUser(email: string, password: string) {
-    const user = this.userService.findOne(email);
+  async validateUser(email: string, password: string) {
+    const user = await this.userService.findOneByEmail(email);
 
     if (user) {
-      console.log('user', user);
       const result = bcrypt.compareSync(password, user.password);
       if (result) {
         delete user.password;
